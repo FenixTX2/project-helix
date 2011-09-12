@@ -1,49 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 
 namespace Launcher
 {
     public partial class Form1 : Form
     {
-        private Dictionary<string, Process> processDictionary = new Dictionary<string, Process>();
+        private readonly Dictionary<string, Process> _processDictionary = new Dictionary<string, Process>();
+
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void Form1Load(object sender, EventArgs e)
         {
-            processComboBox_DropDown(null, null);
+            ProcessComboBoxDropDown(null, null);
         }
 
-        private void processComboBox_DropDown(object sender, EventArgs e)
+        private void ProcessComboBoxDropDown(object sender, EventArgs e)
         {
             processComboBox.Items.Clear();
 
-            populateProcessDictionary("wow");
+            PopulateProcessDictionary("wow");
 
-            processComboBox.Items.AddRange(processDictionary.Keys.ToArray<Object>());
+            processComboBox.Items.AddRange(_processDictionary.Keys.ToArray<Object>());
         }
 
-        private void populateProcessDictionary(string processName)
+        private void PopulateProcessDictionary(string processName)
         {
-            processDictionary.Clear();
+            _processDictionary.Clear();
 
             Process[] processes = Process.GetProcessesByName(processName);
 
             foreach (Process process in processes)
             {
                 string keyString = process.ProcessName +"<"+process.Id+">";
-                processDictionary.Add(keyString, process); 
+                _processDictionary.Add(keyString, process); 
             }
+        }
+
+        private void LaunchButtonClick(object sender, EventArgs e)
+        {
+            if (processComboBox.SelectedIndex < 0)
+                return;
+
+            Process process = _processDictionary[processComboBox.SelectedItem.ToString()];
+
+            Console.WriteLine(@"{0} {1}", process.ProcessName, process.Id);
+ 
         }
     }
 }

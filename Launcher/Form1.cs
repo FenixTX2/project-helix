@@ -50,9 +50,16 @@ namespace Launcher
                 return;
 
             _hostProcess = _processDictionary[processComboBox.SelectedItem.ToString()];
+
+            if (_hostProcess.HasExited)
+                return;
  
             using (Injector syringe = new Injector(_hostProcess))
             {
+                syringe.InjectLibrary("CLRBootstrap.dll");
+
+                Console.WriteLine(@"Hello World");
+
             }
         }
     }

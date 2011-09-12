@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using System.Diagnostics;
+using Syringe;
 
 namespace Launcher
 {
     public partial class Form1 : Form
     {
         private readonly Dictionary<string, Process> _processDictionary = new Dictionary<string, Process>();
+        private Process _hostProcess;
 
         public Form1()
         {
@@ -47,8 +49,12 @@ namespace Launcher
             if (processComboBox.SelectedIndex < 0)
                 return;
 
-            Process process = _processDictionary[processComboBox.SelectedItem.ToString()];
+            _hostProcess = _processDictionary[processComboBox.SelectedItem.ToString()];
  
+            using (Injector syringe = new Injector(_hostProcess))
+            {
+
+            }
         }
     }
 }

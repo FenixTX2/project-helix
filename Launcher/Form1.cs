@@ -48,8 +48,6 @@ namespace Launcher
                 return;
 
             Process process = _processDictionary[processComboBox.SelectedItem.ToString()];
-
-            Console.WriteLine(@"{0} {1}", process.ProcessName, process.Id);
  
         }
     }

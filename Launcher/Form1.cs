@@ -53,7 +53,6 @@ namespace Launcher
  
             using (Injector syringe = new Injector(_hostProcess))
             {
-
             }
         }
     }
